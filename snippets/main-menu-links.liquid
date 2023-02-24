@@ -1,0 +1,82 @@
+<div class="{{ colorGroup }} mainMenu--Links mainMenu--Links_{{ link_object.handle }}" aria-submenu data-scrollable>
+  {% assign option = 'mainMenu--LinkNoImage' %}
+
+
+  <div class="mainMenu--LinkHolder  mainMenu--LinkHolder_{{  link_object.handle  }} {{link_object.handle}} {{ option }}">
+    <div class="mainMenu--FlexItem">
+      {% for sub_link in link_object.links %}
+      {% if sub_link.links.size > 0 %}
+      <div class="mainMenu--MultipleItems">
+        {% if sub_link.title %}
+
+        {% assign subItem_Image = "" %}
+        {% for block in section.blocks %}
+        {% case block.type %}
+        {% when 'submenu_image' %}
+        {% if block.settings.navigation_mega_menu == sub_link.handle and block.type == "submenu_image" %}
+        {% assign subItem_Image = block.settings.menu_image %}
+        {% break %}
+        {% endif %}
+        {% endcase %}
+        {% endfor %}
+        
+
+        {% endif %}
+        <div class="megaMenuLinks">
+          <a class="u-s3 hoverLinks" href="{{ sub_link.url }}">
+            {% if subItem_Image != "" %}
+        <div class="MegaMenu__Item__Subimage">
+          {% assign image_url = subItem_Image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+
+          <img class="MegaMenu__Item__Subimage_image noJSHide lazyload Image--FadeIn" data-expand="-20"
+            data-src="{{ image_url }}" data-optimumx="1.4" data-widths="[200, 400, 600, 800, 1000, 1200]"
+            data-sizes="auto" alt="{{ subItem_Image.alt | escape }}">
+          <noscript>
+            <img class="MegaMenu__Item__Subimage_image" data-expand="-120"
+              src="{{ subItem_Image | image_url: height: 800 }}" alt="{{ subItem_Image.alt | escape }}">
+          </noscript>
+        </div>
+        {% endif %}
+         <span>{{ sub_link.title }}</span>
+         </a>
+          <div class="mainMenu--MultipleItems_Content">
+            {% for sub_link_link in sub_link.links %}
+            <a href="{{ sub_link_link.url }}" class="hoverLinks mainMenu--MultipleItems_subLink mt-m u-p4 mt-sxl" data-image="{{ sub_link_link.handle }}">
+              {{ sub_link_link.title }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="mainMenu--MultipleItems">
+        <a href="{{ sub_link.url }}" class="hoverLinks mainMenu--SignleItem u-s3">{{ sub_link.title }}</a>
+      </div>
+      {% endif %}
+
+      {% endfor %}
+    </div>
+
+    <div class="sublinkImages--Wrapper" >
+      {% for sub_link in link_object.links %}
+        {% for sub_link_link in sub_link.links %}
+        {% assign key = sub_link_link.handle %}
+        {% assign image = shop.metafields.menu_hover_image[key] %}
+          {% if image.value != blank %}
+          {% assign image_url = image.value | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+                <img class="megaMenu--HoverImage lazyload noJSHide Image--FadeIn"
+                      data-src="{{ image_url }}"
+                      data-optimumx="1.2"
+                      data-sizes="auto"
+                      data-expand="-100"
+                      data-widths="[400, 600, 800, 1000, 1200, 1400, 1600]"
+                      id="{{ key }}">
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+
+</div>

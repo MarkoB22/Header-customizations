@@ -1,0 +1,331 @@
+
+
+<style>
+{% assign transparent_header = true %}
+{% assign sticky_header = true %}
+:root {
+  --header-sticky: 1;
+  --header-is-transparent: 1;
+  --header-is-transparent-control: 0;
+  --header-tx-color: transparent;
+  --header-bg-color:  {{ section.settings.new_header_color }};
+  --header-text-color: {{ section.settings.new_header_text_color }};
+  --header-trtxt-color: {{ section.settings.transparent_text_color }};
+}
+.Header--Bg svg path, .Header--TextColor{
+      color: {{ section.settings.new_header_text_color }};
+      fill: {{ section.settings.new_header_text_color }};
+  }
+.Header--TextColor a:link, .Header--TextColor a:visited, .Header--TextColor a:active, .Header--TextColor .RevolutionDropdown--Title{
+color: {{ section.settings.new_header_text_color }};
+}
+.Header--Bg {
+    background-color: {{ section.settings.new_header_color }};
+  }
+
+.LogoSection{
+flex-shrink: 0;
+}
+
+.LogoSection .logo {
+  width: {{ section.settings.mobile_logo_max_width }}px;
+}
+.LogoWrapper{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+  width: {{ section.settings.mobile_logo_max_width }}px;
+}
+
+.Header--Sticky .Header--Transparent {
+  top: var(--announcement-height);
+}
+@media screen and (min-width: 768px){
+  .header_language{
+    border-bottom: none;
+  }
+  .headerLinks{
+    position: static;
+  }
+}
+@media screen and (min-width: 1025px){
+  .Header--Transparent {
+    background-color: transparent;
+  }
+  .LogoSection .logo{
+    width: {{ section.settings.logo_max_width }}px;
+  }
+
+  .LogoWrapper {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: {{ section.settings.logo_max_width }}px;
+  }
+
+  .Header--Transparent .LogoWrapper {
+    top: 16px;
+  }
+
+  .logoBackground path {
+    fill: {{ section.settings.new_header_color }} !important;
+    transition: all 0.3s ease-in-out;
+  }
+  .Header--BigWhite {
+    background: var(--main_color_8);
+  }
+
+}
+
+</style>
+
+{% capture 'isSticky' %}
+{
+"sticky": {{ sticky_header | json }},
+"transparent": {{ transparent_header | json }},
+"headerColor": {{ section.settings.new_header_color | json }}
+}
+{% endcapture %}
+<header-component id="header"
+class="header Header--TextColor Header--Bg Header--Transparent"
+
+  data-settings='{{ isSticky }}'
+  >
+  <div class="HeaderWrapper">
+ <span class="Header--LinkList flex-fill mainMenuItems">
+
+    <span class="Header--LinkList flex-fill not_desktop not_laptop">
+      <button  class="DropDown_Toggle HamburgerItem" aria-label="Open" data-action="toggle-drawer" data-toggle-id="sidebarDrawer">{% render 'icon_pack' with
+        'hamburger_menu' %}</button>
+      {% if settings.enable_search %}    
+        <li class="mx-m headerLinks not_desktop">
+          {% render 'search-bar' %}
+        </li>
+      {% endif %}
+
+    </span>
+    <span class="not_mobile not_pocket Header--MenuItems flex header_link_fix">
+      {% for link in section.settings.menu.links %}
+      <li class="{% if forloop.first %}pl-s{% else %}pl-l{% endif %} pr-l headerLinks u-p6"
+      {% if link.links.size > 0 %} aria-hasMenu='true'  aria-expanded="false"{% else %} aria-singleMenu {% endif %}>
+          <a href={{ link.url }} class="hoverLinks u-h6 mainLinks tt-uppercase">
+
+              {{ link.title }}
+          </a>
+          {% if link.links.size > 0 %}
+          {% assign colorGroup = "colorGroup--" | append: section.settings.colorGroup %}
+          {% render 'main-menu-links', link_object: link, image_blocks: section.block, colorGroup: colorGroup, button_type: section.settings.button_type %}
+          {% endif %}
+      </li>
+
+      {% endfor %}
+    </span>
+
+  </span>
+
+  {% if section.settings.header-img %}
+  {% assign mobileLogo = section.settings.header-img_mobo | default: section.settings.header-img %}
+  <div class="LogoSection">
+    <a href="/" aria-label="Logo">
+    <div class="LogoWrapper AspectRatio not_desktop" style="--aspect-ratio: {{ mobileLogo.aspect_ratio }}; width: {{ section.settings.mobile_logo_max_width }}px; ">
+    <img class="logo {% if section.settings.invert_logo == true %} logo--invert{% endif %}"
+    width="{{ section.settings.mobile_logo_max_width }}"
+      src="{{ mobileLogo | image_url: width: 800 }}"
+      alt="{{ mobileLogo.alt | escape }}"
+      style="aspect-ratio: {{ section.settings.header-img_mobo.aspect_ratio }};">
+      <noscript>
+                  <img src="{{ mobileLogo | image_url: width: 800 }}" alt="{{ media.alt | escape }}">
+                </noscript>
+      </div>
+        <div class="LogoWrapper AspectRatio not_mobile not_pocket" 
+             style="--aspect-ratio: {{ section.settings.header-img.aspect_ratio }}; 
+                    max-width: {{ section.settings.logo_max_width }}px; 
+                    height: calc({{ section.settings.logo_max_width }}px / {{ section.settings.header-img.aspect_ratio }}) ">
+        <svg class="logoBackground" width="201" height="102" viewBox="0 0 201 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M201 25C201 11.1929 189.807 0 176 0H25C11.1929 0 0 11.1929 0 25V25C0 38.8071 11.1929 50 25 50H46C55.3888 50 63 57.6112 63 67V67C63 86.33 78.67 102 98 102C117.33 102 133 86.33 133 67V67C133 57.6112 140.611 50 150 50H176C189.807 50 201 38.8071 201 25V25Z" fill="white"/>
+        </svg>
+        
+      <img class="logo {% if section.settings.invert_logo == true %} logo--invert{% endif %}"
+      width="{{ section.settings.logo_max_width }}"
+        src="{{ section.settings.header-img | image_url: width: 800 }}"
+        alt="{{ section.settings.header-img.alt | escape }}"
+        style="aspect-ratio: {{ section.settings.header-img.aspect_ratio }}; height: auto;">
+              
+        <noscript>
+                  <img src="{{ mobileLogo | image_url: width: 800 }}" alt="{{ media.alt | escape }}">
+                </noscript>
+        </div>
+    </a>
+    </div>
+    {% else %}
+    <a href="/" aria-label="Shop Name"><h1 class="u-h4">{{ shop.name }}</h1></a>
+    {% endif %}
+
+
+
+
+  <span class="header-rightSide headerLinks flex-fill u-p5 set-right ">
+      <ul class="Header--LinkList set-right">
+        <li  class="mx-m headerLinks not_mobile not_pocket">
+          {% if localization.available_languages.size > 1 and settings.enable_language_selectors %}
+          {% render 'selectors', selector: 'language', font-size: "u-h6" %}
+          {% endif %}
+        </li>
+        {% if shop.enabled_currencies.size > 1 and settings.enable_market_selectors == true %}
+        <li  class="mx-m headerLinks not_mobile not_pocket">
+            {% render 'selectors', selector: 'market', font-size: "u-h6" %}
+        </li>
+        {% endif %}
+              {% if settings.enable_search %}    
+                <li class="mx-m headerLinks not_mobile not_pocket">
+                  {% render 'search-bar' %}
+                </li>
+              {% endif %}
+
+          <li class="mx-m headerLinks">
+            <a class="headerLinks--item" href="/account" aria-label="Account">
+                {%- if shop.customer_accounts_enabled -%}
+                {%- render 'icon_pack' with 'account_icon', spacing: 'not_desktop' -%}
+                {%- render 'icon_pack' with 'account_icon_desk', spacing: 'not_mobile not_pocket' -%}
+                {% endif %}
+            </a>
+          </li>
+          <li class="mx-m headerLinks">
+              <a href="/cart" aria-label="Cart" class="align-center u-p5  " data-action='toggle-drawer' data-toggle-id='cart'>
+                {% if cart.item_count == 0 %}{%- render 'icon_pack' with 'shopping_bag', spacing: "mr-s" -%}
+                {% else %}{%- render 'icon_pack' with 'shopping_bag_black', spacing: "mr-s" -%}{% endif %}
+                  <span class="CartCount u-p6 " >({{ cart.item_count }})</span>
+              </a>
+          </li>
+
+      </ul>
+
+
+
+  </span>
+
+
+  <script>
+    document.documentElement.style.setProperty('--header-height', document.querySelector('#header').offsetHeight + 'px');
+  </script>
+</div>
+</div>
+</header-component>
+
+
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "settings": [
+    {
+      "type": "color",
+      "id": "new_header_color",
+      "label": "Header background"
+    },
+    {
+      "type": "color",
+      "id": "new_header_text_color",
+      "label": "Header text",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "transparent_text_color",
+      "label": "Text color when transparent",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "invert_logo",
+      "label": "Invert logo color",
+      "default": false,
+      "info": "Use with black/white logos"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "header-img",
+      "label": "Company logo on desktop"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 50,
+      "max": 150,
+      "step": 1,
+      "unit": "px",
+      "label": "Image width",
+      "default": 83
+    },
+    {
+      "type": "image_picker",
+      "id": "header-img_mobo",
+      "label": "Company logo on mobile"
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_max_width",
+      "min": 20,
+      "max": 120,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile image width",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Desktop menu"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Select a menu for desktop"
+    },
+    {
+      "type": "select",
+      "id": "colorGroup",
+      "options": [
+        {
+          "value": "primary",
+          "label": "First"
+        },
+        {
+          "value": "secondary",
+          "label": "Second"
+        },
+        {
+          "value": "misc",
+          "label": "Third"
+        }
+      ],
+      "default": "primary",
+      "label": "Color group"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "submenu_image",
+      "name": "Menu images",
+      "settings": [
+        {
+          "type": "text",
+          "id": "navigation_mega_menu",
+          "label": "Menu item handle"
+        },
+        {
+          "type": "image_picker",
+          "id": "menu_image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
