@@ -10,6 +10,6 @@ The header and logo of the website change when the user scrolls. The changes are
 
 Custom images have been added to the links in the website's header menu. These changes are implemented using JavaScript and the `{main-menu-links.liquid}` section. A video preview of the custom header menu images can be viewed here: [{https://gyazo.com/c55154bdcf5805cdb322afcd40c3e281}](https://gyazo.com/c55154bdcf5805cdb322afcd40c3e281).
 
-Note that the main CSS file is not included in this document. The JavaScript file contains a single class called "Header", which includes two methods: "toggleColor" and "showImage".
 
-We hope that these customizations enhance the user experience of the website.
+## Note
+The main CSS file is not included in this document. The JavaScript file contains a single class called "Header", which includes two methods: "toggleColor" and "showImage".
