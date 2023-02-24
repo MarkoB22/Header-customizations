@@ -9,7 +9,7 @@ class Header extends HTMLElement {
     if (selectBoxes.length > 0) {
       selectBoxes.forEach((item, i) => {
         new RevolutionSelectbox(item);
-      });  
+      });
     }
 
     this.domHelper = new DomHelper();
