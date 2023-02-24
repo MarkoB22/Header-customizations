@@ -1,15 +1,15 @@
-﻿# Header-customizations
+# Header Customizations
 
-1. Functionality 
-- header and logo changing when website is scrolled
-- changes done inside section header.liquid and javascript file
-- [Video preview of header and logo changing when scrolling](https://gyazo.com/abfb60185d4e6ac91f47722b9157d330)
+This document describes two customizations that have been made to the header section of a website. The changes were implemented using the `{header.liquid}` and `{main-menu-links.liquid}` sections and the JavaScript file.
 
+## Functionality 1: Scrolling Header and Logo Changes
 
-2. Functionality 
-- custom picture for links inside header menu
-- changes done inside snippet main-menu-links.liquid and javascript file
-- [Video preview of images changing inside header menu](https://gyazo.com/c55154bdcf5805cdb322afcd40c3e281)
+The header and logo of the website change when the user scrolls. The changes are implemented using JavaScript and the `{header.liquid}` section. A video preview of the scrolling header and logo changes can be viewed here: [{https://gyazo.com/abfb60185d4e6ac91f47722b9157d330}](https://gyazo.com/abfb60185d4e6ac91f47722b9157d330).
 
-## NOTE
-Main css file not included
+## Functionality 2: Custom Pictures for Header Menu Links
+
+Custom images have been added to the links in the website's header menu. These changes are implemented using JavaScript and the `{main-menu-links.liquid}` section. A video preview of the custom header menu images can be viewed here: [{https://gyazo.com/c55154bdcf5805cdb322afcd40c3e281}](https://gyazo.com/c55154bdcf5805cdb322afcd40c3e281).
+
+Note that the main CSS file is not included in this document. The JavaScript file contains a single class called "Header", which includes two methods: "toggleColor" and "showImage".
+
+We hope that these customizations enhance the user experience of the website.
